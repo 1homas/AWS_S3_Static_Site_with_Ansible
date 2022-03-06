@@ -4,12 +4,20 @@
 #
 
 
-- name: List {{ aws.s3.bucket_name }} Bucket Contents 
+- name: List Buckets
   gather_facts: no
   hosts: localhost
   vars_files:
     - vars.yaml
   tasks:
+
+
+  - name: Lists all s3 buckets
+    community.aws.aws_s3_bucket_info:
+    register: result
+
+  - ansible.builtin.debug: var=result['buckets']
+
 
   - name: Get List of {{ aws.s3.bucket_name }} Bucket Keys
     amazon.aws.aws_s3:
