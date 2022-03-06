@@ -1,0 +1,24 @@
+---
+#
+#
+#
+
+
+- name: List {{ aws.s3.bucket_name }} Bucket Contents 
+  gather_facts: no
+  hosts: localhost
+  vars_files:
+    - vars.yaml
+  tasks:
+
+  - name: Get List of {{ aws.s3.bucket_name }} Bucket Keys
+    amazon.aws.aws_s3:
+      bucket: "{{ aws.s3.bucket_name }}"   # [a-zA-Z0-9-]
+      mode: list
+    register: result
+
+  - name: List {{ aws.s3.bucket_name }} Bucket Contents
+    ansible.builtin.debug: var=result.s3_keys
+
+
+...

@@ -1,0 +1,17 @@
+
+- name: Terminate {{ aws.s3.bucket_name }}
+  hosts: localhost
+  gather_facts: no
+  vars_files: vars.yaml
+  tasks:
+
+  # - name: Remove an S3 bucket and any keys it contains
+  #   amazon.aws.s3_bucket:
+  #     name: "{{ aws.s3.bucket_name }}"   # [a-zA-Z0-9-]
+  #     state: absent
+  #     force: yes
+
+  - name: Delete the {{ aws.s3.bucket_name }} Bucket and All Contents
+    amazon.aws.aws_s3:
+      bucket: "{{ aws.s3.bucket_name }}"   # [a-zA-Z0-9-]
+      mode: delete

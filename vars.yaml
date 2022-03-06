@@ -1,0 +1,31 @@
+---
+#
+# Assumes the use of AWS region and authentication environment variables
+#
+
+project_name: aws_s3_site             # tag all VPCs and resources
+provider: AWS                         # infrastructure provider hint
+domain_name: trust0.net               # use 'aws.local' if you don't have one
+
+
+ssh_keypair_directory: ~/.ssh
+ssh_keypair_name: "{{ project_name }}"
+ssh_keypair_private_file: "{{ ssh_keypair_directory }}/{{ ssh_keypair_name }}.private.pem"
+
+
+#
+# AWS VPC Settings
+#
+aws:
+  region: "{{ lookup('env','AWS_REGION') | default('us-west-1') }}"
+  public_access_cidr:  0.0.0.0/0
+  vpc:
+    name: "{{ project_name }}"
+    cidr: 172.31.0.0/16
+    public_subnet_cidr:  172.31.1.0/24
+    private_subnet_cidr: 172.31.2.0/24
+  s3:
+    bucket_name: "{{ project_name | replace('_','-') }}-bucket"   # [a-zA-Z0-9-]
+
+
+...
