@@ -1,17 +1,30 @@
+---
 
-- name: Terminate {{ aws.s3.bucket_name }}
+
+- name: Terminate Resources for Project "{{ project_name }}"
   hosts: localhost
   gather_facts: no
   vars_files: vars.yaml
+  vars_prompt:
+    - name: project_name
+      prompt: Project Name
+      default: "{{ project_name }}"
+      private: no
   tasks:
 
-  # - name: Remove an S3 bucket and any keys it contains
-  #   amazon.aws.s3_bucket:
-  #     name: "{{ aws.s3.bucket_name }}"   # [a-zA-Z0-9-]
-  #     state: absent
-  #     force: yes
 
-  - name: Delete the {{ aws.s3.bucket_name }} Bucket and All Contents
+  - name: Lists all {{ project_name | replace('_','-') }} S3 buckets
+    community.aws.aws_s3_bucket_info:
+      name_filter: "{{ project_name | replace('_','-') }}"
+    register: result
+
+  - ansible.builtin.debug: var=result['buckets']
+
+  - name: Delete {{ project_name | replace('_','-') }} Buckets and All Contents
+    loop: "{{ result['buckets'] }}"
     amazon.aws.aws_s3:
-      bucket: "{{ aws.s3.bucket_name }}"   # [a-zA-Z0-9-]
+      bucket: "{{ item.name }}"   # [a-zA-Z0-9-]
       mode: delete
+
+
+...
