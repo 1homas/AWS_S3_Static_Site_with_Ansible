@@ -1,8 +1,6 @@
-# Deploy an NGINX Web Server on Ubuntu in AWS using Ansible
+# AWS S3 Static Site with Ansible
 
-Deploys an NGINX web server instance on Ubuntu in AWS using Ansible.  You may deploy this using resources in the [AWS Free Tier](https://aws.amazon.com/free).  If you have never deployed an AWS EC2 instance, you may want to read read [Deploy an EC2 Instance from the AWS Console](https://github.com/1homas/Ansible_AWS_EC2_Instance/blob/main/Deploy_EC2_Instance_from_AWS_Console.md) to understand the general process and the AWS virtual private cloud (VPC) components involved beyond the Ubuntu VM with NGINX.
-
-![Overview](images/NGINX_Static_on_Ubuntu_in_AWS_using_Ansible-Overview.png)
+Deploys an AWS S3 bucket as a static web site (HTTP) using Ansible.
 
 ## Quick Start
 
@@ -12,7 +10,10 @@ Deploys an NGINX web server instance on Ubuntu in AWS using Ansible.  You may de
     git clone https://github.com/1homas/AWS_S3_Static_Site_with_Ansible.git
     ```
 
-1. Create your Python environment and install Ansible:  
+1. Customize any settings in the `vars.yaml` file:
+   - `project_name` : use a project name to tag AWS resources for tracking and easy termination when done
+
+2. Create your Python environment and install Ansible:  
 
     ```bash
     pip install --upgrade pip
@@ -24,7 +25,7 @@ Deploys an NGINX web server instance on Ubuntu in AWS using Ansible.  You may de
 
     If you have any problems installing Python or Ansible, see [Installing Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html).
 
-1. Export your AWS Access & Secret keys into your terminal environment:  
+3. Export your AWS Access & Secret keys into your terminal environment:  
 
     ```bash
     export AWS_REGION='us-west-1'
@@ -38,27 +39,17 @@ Deploys an NGINX web server instance on Ubuntu in AWS using Ansible.  You may de
     source ~/.env/aws.sh
     ```
 
-1. Run the Ansible playbook:  
+4. Run the Ansible playbook:  
 
     ```bash
     ansible-playbook playbook.yaml
     ```
 
-1. SSH to your new running instance:  
-
-    > ⚠ Replace the `{hostname}` with the dynamically assigned public IP address!
-
-    ```bash
-    ssh -i ~/.ssh/aws_s3_site.pem ubuntu@{hostname}
-    ```
-
-1. When you're done, you may terminate the instances and remove all resources :
+5. When you're done, you may terminate the instances and remove all resources :
 
     ```bash
     ansible-playbook terminate.yaml
     ```
-
-
 
 
 ## License
