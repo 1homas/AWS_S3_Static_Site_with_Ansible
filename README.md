@@ -14,6 +14,8 @@ Deploys an AWS S3 bucket as a static web site (HTTP) using Ansible.
 1. Customize any settings in the `vars.yaml` file:
    - `project_name` : use a project name to tag AWS resources for tracking and easy termination when done
 
+    > ⚠ The bucket name is based on the `project_name` by default and must be globally unique for all of AWS. If you get a `403` error when running the playbook, you need to modify the `aws.s3.bucket_name` in `vars.yaml` to be more unique.
+
 2. Create your Python environment and install Ansible:  
 
     ```bash

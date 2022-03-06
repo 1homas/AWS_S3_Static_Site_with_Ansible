@@ -9,6 +9,9 @@ project_name: aws_s3_site     # tag all AWS resources for easy termination
 aws:
   region: "{{ lookup('env','AWS_REGION') | default('us-west-1') }}"
   s3:
+    # ⚠ The bucket name must be globally unique for all of AWS!
+    #   If you receive a 403 error when running the playbook you will need to
+    #   make the bucket_name more unique.
     bucket_name: "{{ project_name | replace('_','-') }}-bucket"   # [a-zA-Z0-9-]
 
 
