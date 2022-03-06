@@ -2,6 +2,7 @@
 
 Deploys an AWS S3 bucket as a static web site (HTTP) using Ansible.
 
+
 ## Quick Start
 
 1. Clone this repository:  
@@ -45,11 +46,23 @@ Deploys an AWS S3 bucket as a static web site (HTTP) using Ansible.
     ansible-playbook playbook.yaml
     ```
 
-5. When you're done, you may terminate the instances and remove all resources :
+5. Try your new static site at
+ `http://{{ aws.s3.bucket_name }}.s3-website-{{ aws.region }}.amazonaws.com` !
+
+6. When you're done, you may terminate the instances and remove all resources :
 
     ```bash
     ansible-playbook terminate.yaml
     ```
+
+
+## Playbooks
+
+- `playbook.yaml` : the main playbook to create the S3 bucket and static site
+- `terminate.yaml` : delete the S3 bucket and all objects within it
+- `aws.s3.list.yaml` : list the AWS S3 bucket keys (files and directories)
+- `aws.s3.sync.yaml` : [re]sync the contents of the local `files` directory to the AWS S3 bucket
+- `aws.show.yaml` : show all AWS resources for the current AWS IAM user
 
 
 ## License
